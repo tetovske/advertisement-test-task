@@ -2,3 +2,6 @@
 
 # Binaries
 .bin
+
+# DB
+.database
