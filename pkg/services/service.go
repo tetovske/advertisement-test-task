@@ -1,9 +1,14 @@
 package services
 
-import "github.com/tetovske/advertisement-service/pkg/repository"
+import (
+	"github.com/tetovske/advertisement-service/pkg/models"
+	"github.com/tetovske/advertisement-service/pkg/repository"
+)
 
 type Advertisement interface {
-	CreateAdvertisement() (int, error)
+	CreateAdvertisement(ad models.Advertisement) (int, error)
+	GetAdvertisement(id int, fields []string) (map[string]interface{}, error)
+	GetAdvertisements() ([]models.Advertisement, error)
 }
 
 type Service struct {
@@ -12,6 +17,6 @@ type Service struct {
 
 func NewService(repo *repository.Repository) *Service {
 	return &Service{
-		Advertisement: NewAdvertisementService(repo.AdvertisementRepository),
+		Advertisement: NewAdvertisementService(repo),
 	}
 }

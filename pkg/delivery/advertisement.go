@@ -2,18 +2,71 @@ package delivery
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/tetovske/advertisement-service/pkg/models"
 	"net/http"
+	"strconv"
 )
 
-func (r *Handler) createAdvertisement(c *gin.Context) {
+func (h *Handler) createAdvertisement(c *gin.Context) {
+	var input models.Advertisement
 
+	if err := c.BindJSON(&input); err != nil {
+		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, map[string]interface{}{
+			"id": -1,
+			"status": http.StatusUnprocessableEntity,
+		})
+
+		return
+	}
+
+	adId, err := h.services.Advertisement.CreateAdvertisement(input)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, map[string]interface{}{
+			"id": -1,
+			"status": http.StatusUnprocessableEntity,
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"id": adId,
+		"status": http.StatusOK,
+	})
 }
 
-func (r *Handler) getAdvertisement(c *gin.Context) {
+func (h *Handler) getAdvertisement(c *gin.Context) {
+	var input models.AdvertisementGetRequest
 
+	c.BindJSON(&input)
+
+	if !input.ValidateFields() {
+		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, map[string]interface{}{
+			"id": -1,
+			"status": http.StatusUnprocessableEntity,
+		})
+
+		return
+	}
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusUnprocessableEntity, map[string]interface{}{})
+
+		return
+	}
+
+	ad, err := h.services.Advertisement.GetAdvertisement(id, input.Fields)
+	if err != nil {
+		c.JSON(http.StatusUnprocessableEntity, map[string]interface{}{})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, ad)
 }
 
-func (r *Handler) getAdvertisementsList(c *gin.Context) {
+func (h *Handler) getAdvertisementsList(c *gin.Context) {
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"id": 1,
 	})

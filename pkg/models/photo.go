@@ -1,7 +1,7 @@
 package models
 
 type Photo struct {
-	Id 				uint
+	Id 	 			uint
 	Link 			string
-	Tag 			uint
+	Tag  			uint
 }

@@ -2,8 +2,8 @@
 -- +goose StatementBegin
 CREATE TABLE ADVERTISEMENTS(
     Id          SERIAL PRIMARY KEY,
-    Title       VARCHAR(30) NOT NULL,
-    Description TEXT,
+    Title       VARCHAR(200) NOT NULL,
+    Description VARCHAR(1000),
     Price       INTEGER NOT NULL
 );
 
