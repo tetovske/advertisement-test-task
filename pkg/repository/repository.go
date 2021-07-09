@@ -9,11 +9,11 @@ import (
 type AdvertisementRepository interface {
 	CreateAdvertisement(ad models.Advertisement) (int, error)
 	GetAdvertisement(id int) (models.Advertisement, error)
-	GetAdvertisementList(id int) (models.Advertisement, error)
+	GetAdvertisementList(sort string) ([]models.Advertisement, error)
 }
 
 type PhotoRepository interface {
-	CreatePhoto(pic models.Photo) (int, error)
+	CreatePhoto(pic models.Photo, adId int) (int, error)
 	GetPhoto(id int) (models.Photo, error)
 	GetPhotoList(id int) ([]models.Photo, error)
 }

@@ -13,16 +13,16 @@ func NewHandler(serv *services.Service) *Handler {
 	return &Handler{services: serv}
 }
 
-func (r *Handler) InitRoutes() *gin.Engine {
+func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
 	api := router.Group("/api")
 	{
 		ads := api.Group("/advertisements")
 		{
-			ads.GET("/", r.getAdvertisementsList)
-			ads.GET("/:id", r.getAdvertisement)
-			ads.POST("/", r.createAdvertisement)
+			ads.GET("/", h.getAdvertisementsList)
+			ads.GET("/:id", h.getAdvertisement)
+			ads.POST("/", h.createAdvertisement)
 		}
 	}
 

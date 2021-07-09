@@ -6,6 +6,7 @@ import (
 	"github.com/tetovske/advertisement-service/pkg/delivery"
 	"github.com/tetovske/advertisement-service/pkg/repository"
 	"github.com/tetovske/advertisement-service/pkg/repository/postgres"
+	services2 "github.com/tetovske/advertisement-service/pkg/services"
 	"github.com/tetovske/advertisement-service/server"
 	"log"
 	"os"
@@ -32,7 +33,9 @@ func main() {
 	}
 	log.Print("DB connection established")
 
-	handlers := new(delivery.Handler)
+	repo := repository.NewRepository(conn)
+	services := services2.NewService(repo)
+	handlers := delivery.NewHandler(services)
 
 	srv := new(server.Server)
 	go func() {
@@ -41,9 +44,6 @@ func main() {
 		}
 	}()
 	log.Print("Server started")
-
-	repo := repository.NewRepository(conn)
-	log.Println(repo)
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)

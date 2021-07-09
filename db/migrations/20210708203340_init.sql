@@ -2,14 +2,15 @@
 -- +goose StatementBegin
 CREATE TABLE ADVERTISEMENTS(
     Id          SERIAL PRIMARY KEY,
-    Title       VARCHAR(30) NOT NULL,
-    Description TEXT,
-    Price       INTEGER NOT NULL
+    Title       VARCHAR(200) NOT NULL,
+    Description VARCHAR(1000),
+    Price       INTEGER NOT NULL,
+    CreatedAt   TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE PHOTOS(
     Id                  SERIAL PRIMARY KEY,
-    Link                VARCHAR(70) NOT NULL,
+    Link                VARCHAR(200) NOT NULL,
     Tag                 INTEGER NOT NULL DEFAULT 0,
     AdvertisementId     INTEGER,
     FOREIGN KEY (AdvertisementId) REFERENCES ADVERTISEMENTS (Id) ON DELETE CASCADE
