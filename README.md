@@ -17,7 +17,7 @@ make app-setup-and-up
 После сборки контейнеров необходимо запустить миграцию для создания таблиц.
 В данной реализации используется утилита goose.
 
-* Выполнить миграцию
+* Применить миграцию
 
 ```bash
 make db-migrate-up
@@ -31,7 +31,7 @@ make app-up
 
 ### Описание методов
 
-* ####Создать объявление
+* Создать объявление
 ```http request
 http://localhost:4000/api/advertisements [POST]
 ```
@@ -47,7 +47,7 @@ http://localhost:4000/api/advertisements [POST]
 }
 ```
 
-Ответ
+Ответ:
 ```json
 {
   "id": 3,
@@ -55,12 +55,12 @@ http://localhost:4000/api/advertisements [POST]
 }
 ```
 
-* ####Получить объявление по id
+* Получить объявление по id
 ```http request
 http://localhost:4000/api/advertisements/:id [GET]
 ```
 
-JSON Body - опционально
+JSON Body (опционально):
 ```json
 {
   "fields": [
@@ -70,7 +70,7 @@ JSON Body - опционально
 }
 ```
 
-Ответ
+Ответ:
 ```json
 {
   "description": "Немного спасает от жары",
@@ -83,12 +83,13 @@ JSON Body - опционально
 }
 ```
 
-* ####Получить все объявления
+* Получить все объявления
 ```http request
 http://localhost:4000/api/advertisements/ [GET]
 ```
 
-JSON Body - опционально (по умолчанию выводится страница 0)
+JSON Body (опционально)
+По умолчанию в качестве ответа возвращается 0-ая страница
 
 Параметры sort:
 * +createdAt
