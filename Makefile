@@ -63,8 +63,5 @@ db-migrate-down: goose-init
 	docker-compose run --rm ${APP} .bin/goose -dir ${MIGRATIONS_DIR} postgres \
         "user=${POSTGRES_USER} host=${POSTGRES_HOST} port=${POSTGRES_PORT} password=${POSTGRES_PASSWORD} dbname=${POSTGRES_DB} sslmode=${POSTGRES_SSL}" down
 
-test:
-	gotest -v ./...
-
 packages-tidy:
 	go mod tidy

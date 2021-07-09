@@ -85,7 +85,6 @@ func (h *Handler) getAdvertisementsList(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, map[string]interface{}{
 			"status": http.StatusUnprocessableEntity,
 		})
-
 		return
 	}
 
@@ -93,6 +92,7 @@ func (h *Handler) getAdvertisementsList(c *gin.Context) {
 
 	start := int(input.Page) * pageSize
 	end := (int(input.Page) + 1) * pageSize
+
 
 	if start < len(resp) {
 		if end < len(resp) {
@@ -102,6 +102,8 @@ func (h *Handler) getAdvertisementsList(c *gin.Context) {
 		}
 
 		c.JSON(http.StatusOK, paginatedResp)
+
+		return
 	} else {
 		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, map[string]interface{}{
 			"status": http.StatusUnprocessableEntity,

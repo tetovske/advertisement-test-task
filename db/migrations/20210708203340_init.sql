@@ -10,7 +10,7 @@ CREATE TABLE ADVERTISEMENTS(
 
 CREATE TABLE PHOTOS(
     Id                  SERIAL PRIMARY KEY,
-    Link                VARCHAR(70) NOT NULL,
+    Link                VARCHAR(200) NOT NULL,
     Tag                 INTEGER NOT NULL DEFAULT 0,
     AdvertisementId     INTEGER,
     FOREIGN KEY (AdvertisementId) REFERENCES ADVERTISEMENTS (Id) ON DELETE CASCADE
