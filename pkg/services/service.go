@@ -8,7 +8,7 @@ import (
 type Advertisement interface {
 	CreateAdvertisement(ad models.Advertisement) (int, error)
 	GetAdvertisement(id int, fields []string) (map[string]interface{}, error)
-	GetAdvertisements() ([]models.Advertisement, error)
+	GetAdvertisements(sort string) ([]map[string]interface{}, error)
 }
 
 type Service struct {

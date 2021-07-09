@@ -88,6 +88,26 @@ func (r *AdvertisementService) GetAdvertisement(id int, fields []string) (map[st
 	return resp, err
 }
 
-func (r *AdvertisementService) GetAdvertisements() ([]models.Advertisement, error) {
-	return nil, nil
+func (r *AdvertisementService) GetAdvertisements(sort string) ([]map[string]interface{}, error) {
+	ads, err := r.repo.AdvertisementRepository.GetAdvertisementList(sort)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp []map[string]interface{}
+
+	for _, ad := range ads {
+		photo, err := r.repo.PhotoRepository.GetPhoto(int(ad.Id))
+		if err != nil {
+			return []map[string]interface{}{}, err
+		}
+
+		resp = append(resp, map[string]interface{}{
+			"title": ad.Title,
+			"price": ad.Price,
+			"photos": photo.Link,
+		})
+	}
+
+	return resp, err
 }

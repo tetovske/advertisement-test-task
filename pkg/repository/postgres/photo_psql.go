@@ -36,11 +36,16 @@ func (r *PhotoPSQL) CreatePhoto(pic models.Photo, adId int) (int, error) {
 }
 
 func (r *PhotoPSQL) GetPhoto(id int) (models.Photo, error) {
-	return models.Photo{
-		Id:   0,
-		Link: "a",
-		Tag:  0,
-	}, nil
+	var photo models.Photo
+
+	query := fmt.Sprintf(`SELECT id, link, tag FROM %s WHERE id = $1 ORDER BY tag ASC`, photosTableName)
+	row := r.conn.QueryRow(query, id)
+	err := row.Scan(&photo.Id, &photo.Link, &photo.Tag)
+	if err != nil {
+		return models.Photo{}, err
+	}
+
+	return photo, nil
 }
 
 func (r *PhotoPSQL) GetPhotoList(id int) ([]models.Photo, error) {

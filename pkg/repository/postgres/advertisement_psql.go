@@ -48,6 +48,35 @@ func (r *AdvertisementPSQL) GetAdvertisement(id int) (models.Advertisement, erro
 	return ad, nil
 }
 
-func (r *AdvertisementPSQL) GetAdvertisementList(id int) ([]models.Advertisement, error) {
-	return nil, nil
+func (r *AdvertisementPSQL) GetAdvertisementList(sort string) ([]models.Advertisement, error) {
+	var ads []models.Advertisement
+
+	query := fmt.Sprintf(`SELECT id, title, description, price FROM %s`, advertisementsTableName)
+
+	sortQuery := " "
+
+	if len(sort) > 0 {
+		if string(sort[0]) == "-" {
+			sortQuery += "ORDER BY " + sort[1:] + " DESC"
+		} else if string(sort[0]) == "+" {
+			sortQuery += "ORDER BY " + sort[1:] + " ASC"
+		}
+	}
+
+	rows, err := r.conn.Query(query + sortQuery)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+	for rows.Next() {
+		ad := models.Advertisement{}
+		if err = rows.Scan(&ad.Id, &ad.Title, &ad.Description, &ad.Price); err != nil {
+			return nil, err
+		}
+
+		ads = append(ads, ad)
+	}
+
+	return ads, nil
 }

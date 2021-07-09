@@ -12,6 +12,11 @@ type AdvertisementGetRequest struct {
 	Fields 	[]string `json:"fields"`
 }
 
+type AdvertisementsGetRequest struct {
+	Sort 	string `json:"sort"`
+	Page	uint   `json:"page"`
+}
+
 func (r *Advertisement) ValidateFields() bool {
 	if r.Photos == nil {
 		return false
@@ -22,6 +27,23 @@ func (r *Advertisement) ValidateFields() bool {
 	}
 
 	return true
+}
+
+func (r *AdvertisementsGetRequest) ValidateSort() bool {
+	validSort := []string{ "+price", "-price", "+createdAt", "-createdAt" }
+
+	if len(r.Sort) == 0 {
+		return true
+	}
+
+	temp := false
+	for _, validSort := range validSort {
+		if r.Sort == validSort {
+			temp = true
+		}
+	}
+
+	return temp
 }
 
 func (r *AdvertisementGetRequest) ValidateFields() bool {
